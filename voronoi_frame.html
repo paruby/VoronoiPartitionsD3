@@ -68,6 +68,7 @@ function random_separated_vertices(n,radius){
   while (vertices.length < n){
     counter++;
     if (counter>100){
+      // we have tried too many times to place a new point, aborting.
       return
     }
     proposition = [width*Math.random(), height*Math.random()];
