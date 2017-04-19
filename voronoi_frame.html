@@ -34,7 +34,11 @@ circle {
 
 <p>
 Enter number of points to randomly generate: <input type="number" id="n_points" min="1" value="20">
-<button onclick="reload(document.getElementById('n_points').value)"> Draw! </button>
+<button onclick="reload(document.getElementById('n_points').value, 'random',0)"> Draw random! </button>
+</p>
+<p>
+<input type="number" id='exclude_radius' min="0" max='10' value='0'>
+<button onclick="reload(document.getElementById('n_points').value, 'exclude_radius', document.getElementById('exclude_radius').value)"> Draw with excluded radius! </button>
 </p>
 
 
@@ -54,6 +58,35 @@ function random_vertices(n){
     vertices.push([width*Math.random(), height*Math.random()]);
     //width/height may be wrong way round
   };
+};
+
+function random_separated_vertices(n,radius){
+  vertices = [];
+  //add counter to abort if there are too many failed additions
+  counter=0;
+  while (vertices.length < n){
+    counter++;
+    if (counter>100){
+      return
+    }
+    proposition = [width*Math.random(), height*Math.random()];
+    //check distance to other points
+    add = true;
+    for (i=0 ; i<vertices.length; i++){
+      xdist = proposition[0] - vertices[i][0];
+      ydist = proposition[1] - vertices[i][1];
+      distance = Math.sqrt( xdist**2 + ydist**2 );
+      if (distance < radius){
+        add = false;
+      };
+    };
+    if (add==true){
+      // add proposed point and reset counter
+      vertices.push(proposition);
+      counter=0;
+    };
+  };
+  return vertices
 };
 
 random_vertices(n);
@@ -116,11 +149,16 @@ var path;
 		.on("dblclick",function(){this.remove();redraw();})
 		.call(drag);
 
-reload = function(n_points) {
+reload = function(n_points,distribution,exclude_radius) {
   if (n_points > 500){
     n_points = 500
   }
-  random_vertices(n_points)
+  if (distribution=="random"){
+    random_vertices(n_points)
+  }
+  if (distribution=="exclude_radius" ){
+    random_separated_vertices(n_points,exclude_radius)
+  }
 
   length_vertices = vertices.length;
 	voronoi = d3.geom.voronoi()
