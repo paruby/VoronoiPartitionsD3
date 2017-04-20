@@ -4,7 +4,7 @@
 <meta charset="utf-8">
   <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
   <link href='css/base.css' rel='stylesheet' type='text/css'>
-<script src="d3.v3.min.js" charset="utf-8"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
 <style>
 path {
   stroke: #fff;
@@ -34,12 +34,12 @@ circle {
 
 <p>
 Enter number of points to randomly generate: <input type="number" id="n_points" min="1" value="20">
-<button onclick="reload('random',[document.getElementById('n_points').value])"> Draw random! </button>
 </p>
 <p>
-Optional: exclude points falling within a certain radius of one another. The higher this number, the more regular the pattern formed.
-<input type="number" id='exclude_radius' min="0" max='10' value='0'>
-<button onclick="reload('exclude_radius', [document.getElementById('n_points').value, document.getElementById('exclude_radius').value])"> Draw with excluded radius! </button>
+Optional: exclude points falling within a certain radius of one another. The higher this number, the more regular the pattern formed. <input type="number" id='exclude_radius' min="0"  value='0'>
+</p>
+<p>
+<button onclick="reload('exclude_radius', [document.getElementById('n_points').value, document.getElementById('exclude_radius').value])"> Draw! </button>
 </p>
 
 
